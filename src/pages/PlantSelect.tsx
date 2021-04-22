@@ -6,9 +6,10 @@ import {
   StyleSheet,
  } from 'react-native';
 
-import { EnviromentButton } from '../components/EnvironmentButton';
 import { Header } from '../components/Header';
+import { EnviromentButton } from '../components/EnvironmentButton';
 import { PlantCardPrimary } from '../components/PlantCardPrimary';
+import { Loading } from '../components/Loading';
 
 import api from '../services/api';
 
@@ -34,6 +35,7 @@ interface PlantProps {
 }
 
 export function PlantSelect() {
+  const [loading, setLoading] = useState(true);
   const [environments, setEnvironments] = useState<EnvironmentProps[]>([]);
   const [plants, setPlants] = useState<PlantProps[]>([]);
   const [filteredPlants, setFilteredPlants] = useState<PlantProps[]>([]);
@@ -41,6 +43,16 @@ export function PlantSelect() {
 
   function handleEnvironmentSelected(environment: string) {
     setEnvironmentSelected(environment);
+
+    if (environment == 'all') {
+      return setFilteredPlants(plants);
+    }
+  
+    const filtered = plants.filter(plant => 
+      plant.environments.includes(environment)
+    );
+
+    setFilteredPlants(filtered);
   }
 
   useEffect(() => {
@@ -64,11 +76,15 @@ export function PlantSelect() {
       const { data } = await api
       .get('plants?_sort=name&_order=asc');
       setPlants(data);
+      setFilteredPlants(data);
+      setLoading(false);
     }
 
     fetchPlants();
   }, []);
 
+  if (loading) 
+    return <Loading />
   return(
     <View style={styles.container}>
       <View style={styles.header}>
@@ -102,7 +118,7 @@ export function PlantSelect() {
         <FlatList
           showsVerticalScrollIndicator={false}
           numColumns={2} 
-          data={plants}
+          data={filteredPlants}
           renderItem={({ item }) => (
             <PlantCardPrimary 
               data={item} 
