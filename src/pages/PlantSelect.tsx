@@ -6,6 +6,7 @@ import {
   ActivityIndicator,
   StyleSheet,
  } from 'react-native';
+import { useNavigation } from '@react-navigation/core';
 
 import { Header } from '../components/Header';
 import { EnviromentButton } from '../components/EnvironmentButton';
@@ -45,8 +46,8 @@ export function PlantSelect() {
   // Pagination
   const [page, setPage] = useState(1);
   const [loadingMore, setLoadingMore] = useState(false);
-  const [loadedAll, setLoadedAll] = useState(false);
 
+  const navigation = useNavigation();
 
   function handleEnvironmentSelected(environment: string) {
     setEnvironmentSelected(environment);
@@ -88,6 +89,10 @@ export function PlantSelect() {
     setLoadingMore(true);
     setPage(oldValue => oldValue + 1);
     fetchPlants();
+  }
+
+  function handlePlantSelect(plant: PlantProps) {
+    navigation.navigate('PlantSave', { plant });
   }
 
   useEffect(() => {
@@ -148,7 +153,8 @@ export function PlantSelect() {
           keyExtractor={(item) => String(item.id)}
           renderItem={({ item }) => (
             <PlantCardPrimary 
-              data={item} 
+              data={item}
+              onPress={() => handlePlantSelect(item)} 
             />
           )}
           onEndReachedThreshold={0.1}
