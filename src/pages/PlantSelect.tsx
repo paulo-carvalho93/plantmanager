@@ -105,6 +105,7 @@ export function PlantSelect() {
 
   if (loading) 
     return <Loading />
+    
   return(
     <View style={styles.container}>
       <View style={styles.header}>
