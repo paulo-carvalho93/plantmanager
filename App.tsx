@@ -21,9 +21,17 @@ export default function App() {
     const subscription = Notifications.addNotificationReceivedListener(
       async notification => {
         const data = notification.request.content.data.plant as PlantProps;
+        console.log("######### NOTIFICAÇÃO ENVIADA #########");
         console.log(data);
       });
 
+      
+      async function notifications() {
+        const data = await Notifications.getAllScheduledNotificationsAsync();
+        console.log("######### NOTIFICAÇÕES AGENDADAS #########");
+        console.log(data);
+      }
+      notifications();
       return () => subscription.remove();
   }, []);
 
