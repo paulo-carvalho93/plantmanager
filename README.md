@@ -15,7 +15,7 @@
 The project was developed during the fifth edition of _Next Level Week_, held by [Rocketseat](https://github.com/Rocketseat) between April 19th and 23th, 2021.
 
 <p align="center">
-  <img alt="screenshot" width="650px" src="./.github/assets/plantmanager_gif.gif" />
+  <img alt="screenshot" width="300px" src="./.github/assets/plantmanager_gif.gif" />
 <p>
 
 </div>
